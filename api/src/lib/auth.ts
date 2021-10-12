@@ -1,5 +1,6 @@
 import { parseJWT } from '@redwoodjs/api'
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import { logger } from 'src/lib/logger'
 
 /**
  * getCurrentUser returns the user information together with
@@ -19,6 +20,7 @@ export const getCurrentUser = async (
   { _event, _context }
 ) => {
   if (!decoded) {
+    logger.warn('Missing decoded user')
     return null
   }
 
@@ -54,7 +56,9 @@ type AllowedRoles = string | string[] | undefined
  * @returns {boolean} - Returns true if the currentUser is logged in and assigned one of the given roles,
  * or when no roles are provided to check against. Otherwise returns false.
  */
-export const hasRole = ({ roles }: { roles: AllowedRoles }): boolean => {
+export const hasRole = (
+  { roles }: { roles: AllowedRoles } = { roles: undefined }
+): boolean => {
   if (!isAuthenticated()) {
     return false
   }
@@ -89,7 +93,9 @@ export const hasRole = ({ roles }: { roles: AllowedRoles }): boolean => {
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const requireAuth = ({ roles }: { roles: AllowedRoles }) => {
+export const requireAuth = (
+  { roles }: { roles: AllowedRoles } = { roles: undefined }
+) => {
   if (!isAuthenticated()) {
     throw new AuthenticationError("You don't have permission to do that.")
   }

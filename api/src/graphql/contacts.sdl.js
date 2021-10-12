@@ -1,10 +1,11 @@
 export const schema = gql`
   type Contact {
     id: Int!
+    createdAt: DateTime!
     name: String!
     email: String!
     message: String!
-    createdAt: DateTime!
+    userId: String
   }
 
   type Query {

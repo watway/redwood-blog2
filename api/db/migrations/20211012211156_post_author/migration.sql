@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Contact" ADD COLUMN     "userId" TEXT;
+
+-- AlterTable
+ALTER TABLE "Post" ADD COLUMN     "authorId" TEXT,
+ADD COLUMN     "editorId" TEXT,
+ADD COLUMN     "publishedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "publisherId" TEXT,
+ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

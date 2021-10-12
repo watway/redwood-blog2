@@ -1,14 +1,19 @@
 export const schema = gql`
   type Post {
     id: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime
+    publishedAt: DateTime
+    authorId: String
+    editorId: String
+    publisherId: String
     title: String!
     body: String!
-    createdAt: DateTime!
   }
 
   type Query {
-    posts: [Post!]! @requireAuth
-    post(id: Int!): Post @requireAuth
+    posts: [Post!]! @skipAuth
+    post(id: Int!): Post @skipAuth
   }
 
   input CreatePostInput {
