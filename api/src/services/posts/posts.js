@@ -1,4 +1,4 @@
-import { requireAuth } from 'src/lib/auth'
+// import { requireAuth } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 
 export const posts = () => {
@@ -12,14 +12,14 @@ export const post = ({ id }) => {
 }
 
 export const createPost = ({ input }) => {
-  requireAuth()
+  // requireAuth()
   return db.post.create({
     data: input,
   })
 }
 
 export const updatePost = ({ id, input }) => {
-  requireAuth()
+  // requireAuth()
   return db.post.update({
     data: input,
     where: { id },
@@ -27,7 +27,7 @@ export const updatePost = ({ id, input }) => {
 }
 
 export const deletePost = ({ id }) => {
-  requireAuth()
+  // requireAuth()
   return db.post.delete({
     where: { id },
   })
