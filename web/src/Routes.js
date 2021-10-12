@@ -10,23 +10,39 @@
 import { Router, Route, Set, Private } from '@redwoodjs/router'
 import PostsLayout from 'src/layouts/PostsLayout'
 import BlogLayout from 'src/layouts/BlogLayout'
+import SidebarLayout from 'src/layouts/SidebarLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Private unauthenticated="home">
-        <Set wrap={PostsLayout}>
-          <Route path="/admin/posts/new" page={PostNewPostPage} name="newPost" />
-          <Route path="/admin/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
-          <Route path="/admin/posts/{id:Int}" page={PostPostPage} name="post" />
-          <Route path="/admin/posts" page={PostPostsPage} name="posts" />
+      <Set wrap={SidebarLayout}>
+        <Set wrap={BlogLayout}>
+          <Route path="/" page={HomePage} name="home" prerender />
         </Set>
-      </Private>
-      <Set wrap={BlogLayout}>
-        <Route path="/contact" page={ContactPage} name="contact" />
-        <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
+
         <Route path="/about" page={AboutPage} name="about" />
-        <Route path="/" page={HomePage} name="home" />
+        <Route path="/contact" page={ContactPage} name="contact" />
+
+        <Private unauthenticated="home" role="admin">
+          <Route path="/admin/users" page={UsersPage} name="users" whileLoadingPage={<>Fetching...</>} prerender />
+        </Private>
+
+        <Set wrap={PostsLayout}>
+          <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
+
+          <Private unauthenticated="home" role={['admin', 'author', 'publisher']} prerender whileLoadingPage={<>Fetching...</>}>
+            <Route path="/admin/posts/new" page={PostNewPostPage} name="newPost" />
+          </Private>
+
+          <Private unauthenticated="home" role={['admin', 'editor', 'publisher']} prerender whileLoadingPage={<>Fetching...</>}>
+            <Route path="/admin/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
+          </Private>
+
+          <Private unauthenticated="home" role={['admin', 'author', 'editor', 'publisher']} prerender whileLoadingPage={<>Fetching...</>}>
+            <Route path="/admin/posts/{id:Int}" page={PostPostPage} name="post" />
+            <Route path="/admin/posts" page={PostPostsPage} name="posts" />
+          </Private>
+        </Set>
       </Set>
       <Route notfound page={NotFoundPage} />
     </Router>

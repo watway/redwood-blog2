@@ -1,34 +1,15 @@
-import { Link, routes } from '@redwoodjs/router'
-import { useAuth } from '@redwoodjs/auth'
-
 const BlogLayout = ({ children }) => {
-  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
-
   return (
-    <>
-      <header>
-        <h1>
-          <Link to={routes.home()}>Redwood Blog</Link>
+    <div>
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl font-semibold text-gray-900 border-b-2 border-gray-100">
+          News
         </h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to={routes.about()}>About</Link>
-            </li>
-            <li>
-              <Link to={routes.contact()}>Contact</Link>
-            </li>
-            <li>
-              <button onClick={isAuthenticated ? logOut : logIn}>
-                {isAuthenticated ? 'Log Out' : 'Log In'}
-              </button>
-            </li>
-            {isAuthenticated && <li>Logged in as: {currentUser.email}</li>}
-          </ul>
-        </nav>
-      </header>
-      <main>{children}</main>
-    </>
+      </div>
+      <div className="mt-6 grid gap-16 pt-10 lg:grid-cols-2 lg:col-gap-5 lg:row-gap-12">
+        {children}
+      </div>
+    </div>
   )
 }
 
