@@ -1,5 +1,6 @@
 import { useAuth } from '@redwoodjs/auth'
 import { MetaTags } from '@redwoodjs/web'
+import UsersCell from 'src/components/UsersCell'
 
 const UsersPage = () => {
   const { isAuthenticated, hasRole } = useAuth()
@@ -15,6 +16,7 @@ const UsersPage = () => {
               Users
             </h1>
           </div>
+          <UsersCell />
         </div>
       )}
     </>

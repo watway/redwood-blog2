@@ -49,3 +49,8 @@ export const deletePost = ({ id }) => {
     where: { id },
   })
 }
+
+export const Post = {
+  user: (_obj, { root }) =>
+    db.post.findUnique({ where: { id: root.id } }).user(),
+}

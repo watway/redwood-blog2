@@ -208,28 +208,28 @@ const SidebarLayout = ({ children }) => {
               {/* Current User */}
               {isAuthenticated && (
                 <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-                  {/* <Link
+                  <Link
                     to={routes.settings()}
                     className="flex-shrink-0 w-full group block"
-                  > */}
-                  <div className="flex items-center">
-                    <div>
-                      <img
-                        className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        alt=""
-                      />
+                  >
+                    <div className="flex items-center">
+                      <div>
+                        <img
+                          className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          alt=""
+                        />
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900">
+                          {currentUser?.user_metadata?.full_name}
+                        </p>
+                        <p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 transition ease-in-out duration-150">
+                          View profile
+                        </p>
+                      </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900">
-                        {currentUser?.user_metadata?.full_name}
-                      </p>
-                      <p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 transition ease-in-out duration-150">
-                        View profile
-                      </p>
-                    </div>
-                  </div>
-                  {/* </Link> */}
+                  </Link>
                 </div>
               )}
             </div>

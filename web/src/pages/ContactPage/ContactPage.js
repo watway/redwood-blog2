@@ -1,3 +1,8 @@
+import { useAuth } from '@redwoodjs/auth'
+import { toast, Toaster } from '@redwoodjs/web/toast'
+import { useMutation } from '@redwoodjs/web'
+import { useForm } from '@redwoodjs/forms'
+
 import {
   FieldError,
   Form,
@@ -7,9 +12,6 @@ import {
   TextAreaField,
   TextField,
 } from '@redwoodjs/forms'
-import { useMutation } from '@redwoodjs/web'
-import { toast, Toaster } from '@redwoodjs/web/toast'
-import { useForm } from '@redwoodjs/forms'
 
 const CREATE_CONTACT = gql`
   mutation CreateContactMutation($input: CreateContactInput!) {
@@ -20,6 +22,7 @@ const CREATE_CONTACT = gql`
 `
 
 const ContactPage = () => {
+  const { isAuthenticated } = useAuth()
   const formMethods = useForm({ mode: 'onBlur' })
 
   const [create, { loading, error }] = useMutation(CREATE_CONTACT, {
@@ -31,60 +34,114 @@ const ContactPage = () => {
 
   const onSubmit = (data) => {
     create({ variables: { input: data } })
-    console.log(data)
   }
 
   return (
     <>
       <Toaster />
-      <Form
-        onSubmit={onSubmit}
-        config={{ mode: 'onBlur' }}
-        error={error}
-        formMethods={formMethods}
-      >
-        <FormError
-          error={error}
-          wrapperStyle={{ color: 'red', backgroundColor: 'lavenderblush' }}
-        />
-        <Label name="name" errorClassName="error">
-          Name
-        </Label>
-        <TextField
-          name="name"
-          validation={{ required: true }}
-          errorClassName="error"
-        />
-        <FieldError name="name" className="error" />
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl font-semibold text-gray-900 border-b-2 border-gray-100">
+          Contact
+        </h1>
+      </div>
 
-        <Label name="email" errorClassName="error">
-          Email
-        </Label>
-        <TextField
-          name="email"
-          validation={{
-            required: true,
-            pattern: {
-              value: /[^@]+@[^.]+\..+/,
-              message: 'Please enter a valid email address',
-            },
-          }}
-          errorClassName="error"
-        />
-        <FieldError name="email" className="error" />
+      <div className="bg-white overflow-hidden shadow rounded-lg mt-8">
+        <div className="px-4 py-5 sm:p-6">
+          <Form
+            onSubmit={onSubmit}
+            config={{ mode: 'onBlur' }}
+            error={error}
+            formMethods={formMethods}
+          >
+            <FormError
+              error={error}
+              wrapperStyle={{ color: 'red', backgroundColor: 'lavenderblush' }}
+            />
 
-        <Label name="message" errorClassName="error">
-          Message
-        </Label>
-        <TextAreaField
-          name="message"
-          validation={{ required: true }}
-          errorClassName="error"
-        />
-        <FieldError name="message" className="error" />
+            {!isAuthenticated && (
+              <>
+                <div>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <Label
+                      name="name"
+                      className="block text-sm font-medium leading-5 text-gray-700"
+                      errorClassName="error"
+                    >
+                      Name
+                    </Label>
+                    <TextField
+                      name="name"
+                      className="form-input block w-full sm:text-sm sm:leading-5"
+                      validation={{ required: true }}
+                      errorClassName="error"
+                    />
+                    <FieldError name="name" className="error" />
+                  </div>
+                </div>
 
-        <Submit disabled={loading}>Save</Submit>
-      </Form>
+                <div>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <Label
+                      name="name"
+                      className="block text-sm font-medium leading-5 text-gray-700"
+                      errorClassName="error"
+                    >
+                      Email
+                    </Label>
+                    <TextField
+                      className="form-input block w-full sm:text-sm sm:leading-5"
+                      placeholder="you@example.com"
+                      name="email"
+                      id="email"
+                      validation={{
+                        required: true,
+                        pattern: {
+                          value: /[^@]+@[^.]+\..+/,
+                          message: 'Please enter a valid email address',
+                        },
+                      }}
+                      errorClassName="error"
+                    />
+                    <FieldError name="email" className="error" />
+                  </div>
+                </div>
+              </>
+            )}
+
+            <div>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <Label
+                  name="message"
+                  className="block text-sm font-medium leading-5 text-gray-700"
+                  errorClassName="error"
+                >
+                  Message
+                </Label>
+                <TextAreaField
+                  id="message"
+                  name="message"
+                  placeholder="Enter your message here..."
+                  className="form-input block w-full sm:text-sm sm:leading-5"
+                  validation={{ required: true }}
+                  errorClassName="error"
+                />
+                <FieldError name="message" className="error" />
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <span className="inline-flex rounded-md shadow-sm">
+                <Submit
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition ease-in-out duration-150"
+                  disabled={loading}
+                >
+                  Save
+                </Submit>
+              </span>
+            </div>
+          </Form>
+        </div>
+      </div>
     </>
   )
 }

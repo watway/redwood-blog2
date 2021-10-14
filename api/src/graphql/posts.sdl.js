@@ -9,6 +9,7 @@ export const schema = gql`
     publisherId: String
     title: String!
     body: String!
+    formattedDate: String @publishedDateFormatter
   }
 
   type Query {

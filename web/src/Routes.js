@@ -22,6 +22,11 @@ const Routes = () => {
 
         <Route path="/about" page={AboutPage} name="about" />
         <Route path="/contact" page={ContactPage} name="contact" />
+        <Route path="/weather" page={WeatherPage} name="weather" />
+
+        <Private unauthenticated="home">
+          <Route path="/settings" page={SettingsPage} name="settings" whileLoadingPage={<>Your settings await ....</>} prerender />
+        </Private>
 
         <Private unauthenticated="home" role="admin">
           <Route path="/admin/users" page={UsersPage} name="users" whileLoadingPage={<>Fetching...</>} prerender />

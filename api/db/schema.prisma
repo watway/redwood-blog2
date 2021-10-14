@@ -28,3 +28,22 @@ model Contact {
   message   String
   userId    String?
 }
+
+model UserProfile {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  uuid      String     @unique
+  userRoles UserRole[]
+}
+
+model UserRole {
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now())
+  name          String
+  userProfileId Int?
+  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+
+  @@unique([name, userProfileId], name: "UserRole.name_userProfileId_unique")
+}
