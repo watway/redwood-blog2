@@ -2,30 +2,14 @@ import { useState } from 'react'
 import { MetaTags } from '@redwoodjs/web'
 import { FieldError, Form, Label, Submit, TextField } from '@redwoodjs/forms'
 import { useForm } from '@redwoodjs/forms'
+import WeatherCell from 'src/components/WeatherCell'
 
 const WeatherPage = () => {
-  const [weather, setWeather] = useState()
-  const [loading, setLoading] = useState(false)
+  const [zip, setZip] = useState()
   const formMethods = useForm({ mode: 'onBlur' })
 
   const onSubmit = (data) => {
-    setLoading(true)
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?zip=${data.zip}&appid=${process.env.OPENWEATHER_KEY}`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        setWeather(json)
-        setLoading(false)
-      })
-  }
-
-  const temp = () => Math.round(((weather.main.temp - 273.15) * 9) / 5 + 32)
-
-  const condition = () => weather.weather[0].main
-
-  const icon = () => {
-    return `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`
+    setZip(data.zip)
   }
 
   return (
@@ -38,7 +22,6 @@ const WeatherPage = () => {
             Weather
           </h1>
         </div>
-        {/* <UsersCell /> */}
 
         <div className="bg-white overflow-hidden shadow rounded-lg mt-8">
           <div className="px-4 py-5 sm:p-6">
@@ -73,28 +56,14 @@ const WeatherPage = () => {
 
               <div className="mt-8">
                 <span className="inline-flex rounded-md shadow-sm">
-                  <Submit
-                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition ease-in-out duration-150"
-                    disabled={loading}
-                  >
+                  <Submit className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition ease-in-out duration-150">
                     Go
                   </Submit>
                 </span>
               </div>
             </Form>
           </div>
-
-          {weather && (
-            <section className="px-4 py-5 sm:p-6 border-t border-gray-200">
-              <h1>{weather.name}</h1>
-              <h2>
-                <img src={icon()} style={{ maxWidth: '2rem' }} />
-                <span>
-                  {temp()}°F and {condition()}
-                </span>
-              </h2>
-            </section>
-          )}
+          {zip && <WeatherCell zip={zip} />}
         </div>
       </div>
     </>
