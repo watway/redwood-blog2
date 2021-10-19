@@ -5,11 +5,12 @@ import { useForm } from '@redwoodjs/forms'
 import WeatherCell from 'src/components/WeatherCell'
 
 const WeatherPage = () => {
-  const [zip, setZip] = useState()
+  const [country, setCountry] = useState('US')
+  const [location, setLocation] = useState({})
   const formMethods = useForm({ mode: 'onBlur' })
 
   const onSubmit = (data) => {
-    setZip(data.zip)
+    setLocation(data)
   }
 
   return (
@@ -30,6 +31,7 @@ const WeatherPage = () => {
               config={{ mode: 'onBlur' }}
               formMethods={formMethods}
             >
+              {/* Zip/Post code */}
               <div>
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <Label
@@ -37,13 +39,13 @@ const WeatherPage = () => {
                     className="block text-sm font-medium leading-5 text-gray-700"
                     errorClassName="text-orange-600"
                   >
-                    Zip Code
+                    Zip/Post Code
                   </Label>
                   <TextField
                     name="zip"
                     className="form-input block w-full sm:text-sm sm:leading-5"
                     maxLength="5"
-                    validation={{ required: true, pattern: /^\d{5}$/ }}
+                    validation={{ required: true, pattern: /^\d{4,5}$/ }}
                     errorClassName="bg-orange-100 rounded-md w-full"
                   />
                 </div>
@@ -52,6 +54,27 @@ const WeatherPage = () => {
                   name="zip"
                   className="block w-full text-orange-600 text-xs pt-2"
                 />
+              </div>
+
+              {/* Country */}
+              <div>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <Label
+                    name="country"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                    errorClassName="text-orange-600"
+                  >
+                    Country
+                  </Label>
+                  <TextField
+                    name="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="form-input block w-full sm:text-sm sm:leading-5"
+                    validation={{ required: true }}
+                    errorClassName="bg-orange-100 rounded-md w-full"
+                  />
+                </div>
               </div>
 
               <div className="mt-8">
@@ -63,7 +86,9 @@ const WeatherPage = () => {
               </div>
             </Form>
           </div>
-          {zip && <WeatherCell zip={zip} />}
+          {location.zip && location.country && (
+            <WeatherCell location={location} />
+          )}
         </div>
       </div>
     </>
