@@ -1,7 +1,10 @@
 import got from 'got'
 import { UserInputError } from '@redwoodjs/graphql-server'
+import { logger } from 'src/lib/logger'
 
 export const getWeather = async ({ location }) => {
+  logger.info(JSON.stringify(location))
+
   try {
     const { body } = await got(
       `http://api.openweathermap.org/data/2.5/weather?zip=${location.zip},${location.country}&appid=${process.env.OPENWEATHER_KEY}`,

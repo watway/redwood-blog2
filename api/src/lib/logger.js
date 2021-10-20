@@ -1,4 +1,24 @@
-import { createLogger } from '@redwoodjs/api/logger'
+import { createLogger, redactionsList } from '@redwoodjs/api/logger'
+// import { createWriteStream } from 'pino-logflare'
+import pinoLogDna from 'pino-logdna'
+
+/**
+ * Creates a pino-logflare stream
+ *
+ * @param {object} options - Logflare options including
+ * your account's API Key and source token id
+ *
+ * @typedef {DestinationStream}
+ */
+// export const stream = createWriteStream({
+//   apiKey: process.env.LOGFLARE_API_KEY,
+//   sourceToken: process.env.LOGFLARE_SOURCE_TOKEN,
+// })
+
+export const stream = pinoLogDna({
+  key: process.env.LOGDNA_INGESTION_KEY,
+  onError: console.error,
+})
 
 /**
  * Creates a logger with RedwoodLoggerOptions
@@ -18,6 +38,14 @@ export const logger = createLogger({
   options: {
     prettyPrint: true,
     level: 'trace',
-    redact: ['data.posts[*].title', 'data.users[*].email', 'email'],
+    // redact: ['data.posts[*].title', 'data.users[*].email', 'email'],
+    redact: [
+      ...redactionsList,
+      'data.posts[*].title',
+      'data.users[*].email',
+      'email',
+    ],
   },
+  // destination: 'log/api.log',
+  // destination: stream,
 })

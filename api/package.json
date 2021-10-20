@@ -6,6 +6,8 @@
     "@redwoodjs/api": "0.37.4",
     "@redwoodjs/graphql-server": "0.37.4",
     "date-fns": "^2.25.0",
-    "got": "^11.8.2"
+    "got": "^11.8.2",
+    "pino-logdna": "^2.0.0",
+    "pino-logflare": "^0.3.12"
   }
 }
