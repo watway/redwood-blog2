@@ -82,7 +82,7 @@ const ContactPage = () => {
                 <div>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <Label
-                      name="name"
+                      name="email"
                       className="block text-sm font-medium leading-5 text-gray-700"
                       errorClassName="error"
                     >

@@ -28,7 +28,7 @@ export const Success = ({ weather }) => {
         {weather.city}, {weather.country}
       </h1>
       <h2>
-        <img src={weather.icon} style={{ maxWidth: '2rem' }} />
+        <img src={weather.icon} style={{ maxWidth: '2rem' }} alt="Weather" />
         <span>
           {weather.temp}°F and {weather.conditions}
         </span>
